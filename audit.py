@@ -26,16 +26,8 @@ def main():
         page_ids = set((page.id for page in all_pages))
         children_page_iter = itertools.chain.from_iterable(
             (block.children for block in blocks if hasattr(block, 'children')))
-        children_iter = itertools.chain(
-            children_page_iter,
-            itertools.chain.from_iterable(
-                (row.get_all_properties().values() for row in block.get_rows())
-                for block in blocks
-                if getattr('block', 'type', None) == 'collection'
-            )
-        )
         children = [
-            page for page in children_iter
+            page for page in children_page_iter
             if page.id not in page_ids and page.type in (
                 'page', 'collection',
             )
